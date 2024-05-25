@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="ro">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Alegeri</title>
+    <link rel="stylesheet" href="form.css">
+</head>
+<body>
+    <div class="form-container">
+        <h1>Formular de Candidatură</h1>
+        <form id="alegeriForm">
+            <label for="nume">Nume:</label>
+            <input type="text" id="nume" name="nume" required>
+            <label for="prenume">Prenume:</label>
+            <input type="text" id="prenume" name="prenume" required>
+            <label for="data-nasterii">Data nașterii:</label>
+            <input type="date" id="data-nasterii" name="data-nasterii" required>
+            <label for="telefon">Număr de telefon:</label>
+            <input type="tel" id="telefon" name="telefon" required>
+            <label for="email">Email:</label>
+            <input type="email" id="email" name="email" required>
+            <label for="functie">Funcție:</label>
+            <select id="functie" name="functie" required>
+                <option value="secretar-pe-externe">Secretar pe Externe</option>
+                <option value="secretar-pe-interne">Secretar pe Interne</option>
+                <option value="vice-presedinte-1">Vice Președinte 1</option>
+                <option value="vice-presedinte-2">Vice Președinte 2</option>
+                <option value="presedinte">Președinte</option>
+            </select>
+            <button type="submit">Trimite</button>
+        </form>
+    </div>
+
+    <script>
+        document.getElementById('alegeriForm').addEventListener('submit', function(event) {
+            event.preventDefault();
+            
+            const formData = new FormData(this);
+            const data = {};
+            formData.forEach((value, key) => data[key] = value);
+
+            fetch('https://script.google.com/macros/s/AKfycbzQMjnGYLDucejzxLnnA_lv-EEdN2IqYMCzbuQmkZ5Zh3h4bcW6dQcLnjtnRDwcYL5S/exec', { // Înlocuiește cu URL-ul scriptului web
+                method: 'POST',
+                body: new URLSearchParams(data)
+            })
+            .then(response => response.json())
+            .then(response => {
+                if (response.status === 'success') {
+                    alert(response.message);
+                } else {
+                    alert('A apărut o problemă la trimiterea aplicației.');
+                }
+            })
+            .catch(error => console.error('Eroare:', error));
+        });
+    </script>
+</body>
+</html>
